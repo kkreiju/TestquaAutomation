@@ -39,7 +39,7 @@ pip install robotframework robotframework-browser robotframework-requests robotf
 ```powershell
 pip install pipdeptree
 ```
-- **Intall RCC**
+- **Install RCC**
 ```powershell
 curl -o rcc.exe https://downloads.robocorp.com/rcc/releases/latest/windows64/rcc.exe
 ```
