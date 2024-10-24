@@ -16,6 +16,10 @@ Check Status OK
 Initialize Student Dropdown
     Wait Until Element Is Visible    id=StudentsDropdown    timeout=10s
     Click Element    id=StudentsDropdown
+    
+Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectsDropdown    timeout=10s
+    Click Element    id=SubjectsDropdown
 
 *** Test Cases ***
 Initialize Browser
@@ -191,3 +195,223 @@ Delete Student Entry
     Check Status OK
     ${table_text}=    Get Text    xpath=//table[@id='students']
     Should Not Contain    ${table_text}    33928124
+
+Verify Subject Dropdowns
+    Sleep    1
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectEntry    timeout=10s
+    Click Element    id=SubjectEntry
+    Check Status OK
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectList   timeout=10s
+    Click Element    id=SubjectList
+    Check Status OK
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectEdit    timeout=10s
+    Click Element    id=SubjectEdit
+    Check Status OK
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectDelete    timeout=10s
+    Click Element    id=SubjectDelete
+    Check Status OK
+
+Add Subject Entry
+    Sleep    1
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectEntry    timeout=10s
+    Click Element    id=SubjectEntry
+    Check Status OK
+    # Case 1: Add a dummy entry and check if cancel works
+    Input Text    id=subjectcode    123
+    Input Text    id=description    123
+    Input Text    id=units    1
+    FOR    ${index}    IN RANGE    3
+        Select From List By Index    id=offering    ${index}
+    END
+    FOR    ${index}    IN RANGE    2
+        Select From List By Index    id=category    ${index}
+    END
+    FOR    ${index}    IN RANGE    3
+        Select From List By Index    id=coursecode    ${index}
+    END
+    Input Text    id=curriculumyear    123-123
+    Input Text    id=requisite    123
+    Click Element    id=cancel
+    ${subjectcode}=    Get Value    id=subjectcode
+    Should Be Empty    ${subjectcode}
+    ${description}=    Get Value    id=description
+    Should Be Empty    ${description}
+    ${units}=    Get Value    id=units
+    Should Be Empty    ${units}
+    ${curriculumyear}=    Get Value    id=curriculumyear
+    Should Be Empty    ${curriculumyear}
+    ${requisite}=    Get Value    id=requisite
+    Should Be Empty    ${requisite}
+    Check Status OK
+    # Case 2: Add a dummy entry without requisite and check if submit works
+    Input Text    id=subjectcode    TESTING100
+    Input Text    id=description    Testing Subject
+    Input Text    id=units    3
+    Select From List By Index    id=offering    0
+    Select From List By Index    id=category    1
+    Select From List By Index    id=coursecode    1
+    Input Text    id=curriculumyear    2024-2025
+    ${subjectcode}=    Get Value    id=subjectcode
+    Should Be Equal    ${subjectcode}    TESTING100
+    ${description}=    Get Value    id=description
+    Should Be Equal    ${description}    Testing Subject
+    ${units}=    Get Value    id=units
+    Should Be Equal    ${units}    3
+    ${offering}=    Get Selected List Label    id=offering
+    Should Be Equal    ${offering}    First Semester
+    ${category}=    Get Selected List Label    id=category
+    Should Be Equal    ${category}    Laboratory
+    ${coursecode}=    Get Selected List Label    id=coursecode
+    Should Be Equal    ${coursecode}    BSIS
+    ${curriculumyear}=    Get Value    id=curriculumyear
+    Should Be Equal    ${curriculumyear}    2024-2025
+    ${requisite}=    Get Value    id=requisite
+    Should Be Empty    ${requisite}
+    Sleep    1
+    Click Element    id=save
+    Check Status OK
+    # Case 3: Add a dummy entry with requisite and check if submit works
+    Input Text    id=subjectcode    TESTING101
+    Input Text    id=description    Testing Subject 2
+    Input Text    id=units    3
+    Select From List By Index    id=offering    1
+    Select From List By Index    id=category    1
+    Select From List By Index    id=coursecode    1
+    Input Text    id=curriculumyear    2024-2025
+    Input Text    id=requisite    TESTING100
+    ${subjectcode}=    Get Value    id=subjectcode
+    Should Be Equal    ${subjectcode}    TESTING101
+    ${description}=    Get Value    id=description
+    Should Be Equal    ${description}    Testing Subject 2
+    ${units}=    Get Value    id=units
+    Should Be Equal    ${units}    3
+    ${offering}=    Get Selected List Label    id=offering
+    Should Be Equal    ${offering}    Second Semester
+    ${category}=    Get Selected List Label    id=category
+    Should Be Equal    ${category}    Laboratory
+    ${coursecode}=    Get Selected List Label    id=coursecode    
+    Should Be Equal    ${coursecode}    BSIS
+    ${curriculumyear}=    Get Value    id=curriculumyear
+    Should Be Equal    ${curriculumyear}    2024-2025
+    ${requisite}=    Get Value    id=requisite
+    Should Be Equal    ${requisite}    TESTING100
+    Scroll Element Into View    id=save
+    Click Element    id=save
+    Check Status OK
+
+Verify Added Entry in Subject List
+    Sleep    1
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectList    timeout=10s
+    Click Element    id=SubjectList
+    Check Status OK
+    ${table_text}=    Get Text    xpath=//table[@id='subjects']//td[contains(text(), 'TESTING100')]
+    Should Contain    ${table_text}    TESTING100
+    ${table_text}=    Get Text    xpath=//table[@id='subjects']//td[contains(text(), 'TESTING101')]
+    Should Contain    ${table_text}    TESTING101
+
+Edit Subject Entry
+    Sleep    1
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectEdit    timeout=10s
+    Click Element    id=SubjectEdit
+    Check Status OK
+    Wait Until Element Is Visible    id=subjectcode    timeout=10s
+    Input Text    id=subjectcode    TESTING100
+    Input Text    id=coursecode    BSIS
+    Click Element    id=searchbutton
+    # Case 1: Edit the Subject Code to another value
+    Input Text    id=subjectcode2    TESTING200
+    Click Element    id=savebutton
+    Check Status OK
+    ${table_text}=    Get Text    xpath=//table[@id='subjects']//td[contains(text(), 'TESTING200')]
+    Should Contain    ${table_text}    TESTING200
+    # Case 2: Edit the Subject Code back to the original value
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectEdit    timeout=10s
+    Click Element    id=SubjectEdit
+    Check Status OK
+    Wait Until Element Is Visible    id=subjectcode    timeout=10s
+    Input Text    id=subjectcode    TESTING200
+    Input Text    id=coursecode    BSIS
+    Click Element    id=searchbutton
+    Input Text    id=subjectcode2    TESTING100
+    Click Element    id=savebutton
+    Check Status OK
+    ${table_text}=    Get Text    xpath=//table[@id='subjects']//td[contains(text(), 'TESTING100')]
+    Should Contain    ${table_text}    TESTING100
+    # Case 3: Edit the details to another value
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectEdit    timeout=10s
+    Click Element    id=SubjectEdit
+    Check Status OK
+    Wait Until Element Is Visible    id=subjectcode    timeout=10s
+    Input Text    id=subjectcode    TESTING100
+    Input Text    id=coursecode    BSIS
+    Click Element    id=searchbutton
+    Wait Until Element Is Visible    id=description    timeout=10s
+    Input Text    id=description    Testing Subject 3
+    Input Text    id=units    4
+    Select From List By Index    id=offering    2
+    Select From List By Index    id=category    0
+    Select From List By Index    id=coursecode    0
+    Input Text    id=curriculumyear    2025-2026
+    ${subjectcode}=    Get Value    id=subjectcode2
+    Should Be Equal    ${subjectcode}    TESTING100
+    ${description}=    Get Value    id=description
+    Should Be Equal    ${description}    Testing Subject 3
+    ${units}=    Get Value    id=units
+    Should Be Equal    ${units}    4
+    ${offering}=    Get Selected List Label    id=offering
+    Should Be Equal    ${offering}    Summer
+    ${category}=    Get Selected List Label    id=category
+    Should Be Equal    ${category}    Lecture
+    ${coursecode}=    Get Selected List Label    id=coursecode
+    Should Be Equal    ${coursecode}    BSIT
+    ${curriculumyear}=    Get Value    id=curriculumyear
+    Should Be Equal    ${curriculumyear}    2025-2026
+    Click Element   id=savebutton
+    Check Status OK
+    Wait Until Element Is Visible    xpath=//table[@id='subjects']    timeout=10s
+    ${rows}=    Get WebElements    xpath=//table[@id='subjects']//tr
+    FOR    ${row}    IN    @{rows}
+        ${row_text}=    Get Text    ${row}
+        IF    '${row_text}' == 'TESTING100'
+            Should Contain    ${row_text}    TESTING100
+            Should Contain    ${row_text}    Testing Subject 3
+            Should Not Contain    ${row_text}    Testing Subject
+        END
+    END
+
+Delete Subject Entry
+    Sleep    1
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectDelete    timeout=10s
+    Click Element    id=SubjectDelete
+    Check Status OK
+    Wait Until Element Is Visible    id=subjectcode    timeout=10s
+    Input Text    id=subjectcode    TESTING100
+    Input Text    id=coursecode    BSIT
+    Click Element    id=searchbutton
+    Wait Until Element Is Visible    id=deletebutton    timeout=10s
+    Click Element    id=deletebutton
+    Check Status OK
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectDelete    timeout=10s
+    Click Element    id=SubjectDelete
+    Check Status OK
+    Wait Until Element Is Visible    id=subjectcode    timeout=10s
+    Input Text    id=subjectcode    TESTING101
+    Input Text    id=coursecode    BSIS
+    Click Element    id=searchbutton
+    Wait Until Element Is Visible    id=deletebutton    timeout=10s
+    Click Element    id=deletebutton
+    Check Status OK
+    ${table_text}=    Get Text    xpath=//table[@id='subjects']
+    Should Not Contain    ${table_text}    TESTING101
+

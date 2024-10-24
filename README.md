@@ -3,7 +3,7 @@
 </p>
 
 <h1 align="center"> IT-TESTQUA31 Final Project </h1>
-<p align="center"><i >Updated as of October 24, 2024.</i></p><br>
+<p align="center"><i >Updated as of October 25, 2024.</i></p><br>
 Robotic Process Automation of ELDNET 1 Final Project.
 
 ## Tech Stack
