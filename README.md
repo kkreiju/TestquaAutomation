@@ -3,7 +3,7 @@
 </p>
 
 <h1 align="center"> IT-TESTQUA31 Final Project </h1>
-<p align="center"><i >Updated as of October 25, 2024.</i></p><br>
+<p align="center"><i >Updated as of October 30, 2024.</i></p><br>
 Robotic Process Automation of ELDNET 1 Final Project.
 
 ## Tech Stack
@@ -13,8 +13,6 @@ Robotic Process Automation of ELDNET 1 Final Project.
 ## Members
 **Arjay Nino Saguisa**<br>
 **John Reddick Quijano**<br>
-**Blaise Lorenz Bernabe**<br>
-**Kricel Alvarado**
 
 ## Instructions
 
@@ -32,7 +30,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 - **Install Robot Framework Dependencies**
 ```powershell
-pip install robotframework robotframework-browser robotframework-requests robotframework-seleniumlibrary
+pip install robotframework robotframework-browser robotframework-requests robotframework-seleniumlibrary robotframework-selenium2library
 ```
 
 - **Install Pip Dependency Tree (optional)**
@@ -58,7 +56,3 @@ cd TestquaAutomation
 <p align="center">
   <img src="assets/instruction.png" alt="instruction">
 </p>
-
-```
-${workspaceFolder}\.venv\Lib\site-packages
-```

@@ -1,5 +1,5 @@
 *** Settings ***
-Library    SeleniumLibrary
+Library    Selenium2Library
 Library    RequestsLibrary
 Library    sound.py
 
@@ -59,6 +59,222 @@ Add Subject For Schedule
     Click Element    id=save
     Check Status OK
 
+Add Student for Enrollment
+    Sleep    1
+    Initialize Student Dropdown
+    Wait Until Element Is Visible    id=StudentEntry    timeout=10s
+    Click Element    id=StudentEntry
+    Check Status OK
+    Input Text    id=idnumber    33928124
+    Input Text    id=firstname    John
+    Input Text    id=middlename    Code
+    Input Text    id=lastname    Doe
+    Select From List By Index    id=course    0
+    Input Text    id=year    1
+    Select From List By Index    id=remarks    2
+    ${idnumber}=    Get Value    id=idnumber
+    Should Be Equal    ${idnumber}    33928124
+    ${firstname}=    Get Value    id=firstname
+    Should Be Equal    ${firstname}    John
+    ${middlename}=    Get Value    id=middlename
+    Should Be Equal    ${middlename}    Code
+    ${lastname}=    Get Value    id=lastname
+    Should Be Equal    ${lastname}    Doe
+    ${course}=    Get Selected List Label    id=course
+    Should Be Equal    ${course}    BSIT
+    ${year}=    Get Value    id=year
+    Should Be Equal    ${year}    1
+    ${remarks}=    Get Selected List Label    id=remarks
+    Should Be Equal    ${remarks}    New
+    Click Element   id=submit
+    Check Status OK
+
+Add Subject for Enrollment
+    Sleep    1
+    Scroll Element Into View    id=SubjectsDropdown
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectEntry    timeout=10s
+    Click Element    id=SubjectEntry
+    Check Status OK
+    Input Text    id=subjectcode    TESTING101
+    Input Text    id=description    Testing Subject 1
+    Input Text    id=units    3
+    Select From List By Index    id=offering    1
+    Select From List By Index    id=category    1
+    Select From List By Index    id=coursecode    1
+    Input Text    id=curriculumyear    2024-2025
+    Input Text    id=requisite    TESTING100
+    ${subjectcode}=    Get Value    id=subjectcode
+    Should Be Equal    ${subjectcode}    TESTING101
+    ${description}=    Get Value    id=description
+    Should Be Equal    ${description}    Testing Subject 1
+    ${units}=    Get Value    id=units
+    Should Be Equal    ${units}    3
+    ${offering}=    Get Selected List Label    id=offering
+    Should Be Equal    ${offering}    Second Semester
+    ${category}=    Get Selected List Label    id=category
+    Should Be Equal    ${category}    Laboratory
+    ${coursecode}=    Get Selected List Label    id=coursecode
+    Should Be Equal    ${coursecode}    BSIS
+    ${curriculumyear}=    Get Value    id=curriculumyear
+    Should Be Equal    ${curriculumyear}    2024-2025
+    ${requisite}=    Get Value    id=requisite
+    Should Be Equal    ${requisite}    TESTING100
+    Sleep    1
+    Click Element    id=save
+    Check Status OK
+    # Iterate 2 times to add 2 subjects
+    Sleep    1
+    Scroll Element Into View    id=SubjectsDropdown
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectEntry    timeout=10s
+    Click Element    id=SubjectEntry
+    Check Status OK
+    Input Text    id=subjectcode    TESTING102
+    Input Text    id=description    Testing Subject 2
+    Input Text    id=units    3
+    Select From List By Index    id=offering    0
+    Select From List By Index    id=category    1
+    Select From List By Index    id=coursecode    1
+    Input Text    id=curriculumyear    2025-2026
+    Input Text    id=requisite    TESTING101
+    ${subjectcode}=    Get Value    id=subjectcode
+    Should Be Equal    ${subjectcode}    TESTING102
+    ${description}=    Get Value    id=description
+    Should Be Equal    ${description}    Testing Subject 2
+    ${units}=    Get Value    id=units
+    Should Be Equal    ${units}    3
+    ${offering}=    Get Selected List Label    id=offering
+    Should Be Equal    ${offering}    First Semester
+    ${category}=    Get Selected List Label    id=category
+    Should Be Equal    ${category}    Laboratory
+    ${coursecode}=    Get Selected List Label    id=coursecode
+    Should Be Equal    ${coursecode}    BSIS
+    ${curriculumyear}=    Get Value    id=curriculumyear
+    Should Be Equal    ${curriculumyear}    2025-2026
+    ${requisite}=    Get Value    id=requisite
+    Should Be Equal    ${requisite}    TESTING101
+    Sleep    1
+    Click Element    id=save
+    Check Status OK
+
+Add Schedule for Enrollment
+    Sleep    1
+    # Add Schedule for TESTING100
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleEntry    timeout=10s
+    Click Element    id=ScheduleEntry
+    Check Status OK
+    Input Text    id=edpcode    657899
+    Input Text    id=subjectcode    TESTING100
+    Input Text    id=starttime    13:00
+    Input Text    id=endtime    14:00
+    Click Element    id=monday
+    Click Element    id=wednesday
+    Input Text    id=room    678
+    Input Text    id=maxsize    1
+    Select From List By Index    id=course    1
+    Input Text    id=section    6C
+    Input Text    id=schoolyear    2024-2025
+    ${edpcode}=    Get Value    id=edpcode
+    Should Be Equal    ${edpcode}    657899
+    ${subjectcode}=    Get Value    id=subjectcode
+    Should Be Equal    ${subjectcode}    TESTING100
+    ${starttime}=    Get Value    id=starttime
+    Should Be Equal    ${starttime}    13:00
+    ${endtime}=    Get Value    id=endtime
+    Should Be Equal    ${endtime}    14:00
+    ${room}=    Get Value    id=room
+    Should Be Equal    ${room}    678
+    ${maxsize}=    Get Value    id=maxsize
+    Should Be Equal    ${maxsize}    1
+    ${course}=    Get Selected List Label    id=course
+    Should Be Equal    ${course}    BSIS
+    ${section}=    Get Value    id=section
+    Should Be Equal    ${section}    6C
+    ${schoolyear}=    Get Value    id=schoolyear
+    Should Be Equal    ${schoolyear}    2024-2025
+    Scroll Element Into View    id=submitBtn
+    Click Element    id=submitBtn
+    Check Status OK
+    # Add Schedule for TESTING101
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleEntry    timeout=10s
+    Click Element    id=ScheduleEntry
+    Check Status OK
+    Input Text    id=edpcode    667899
+    Input Text    id=subjectcode    TESTING101
+    Input Text    id=starttime    13:00
+    Input Text    id=endtime    14:00
+    Click Element    id=tuesday
+    Click Element    id=thursday
+    Input Text    id=room    679
+    Input Text    id=maxsize    1
+    Select From List By Index    id=course    1
+    Input Text    id=section    6C
+    Input Text    id=schoolyear    2024-2025
+    ${edpcode}=    Get Value    id=edpcode
+    Should Be Equal    ${edpcode}    667899
+    ${subjectcode}=    Get Value    id=subjectcode
+    Should Be Equal    ${subjectcode}    TESTING101
+    ${starttime}=    Get Value    id=starttime
+    Should Be Equal    ${starttime}    13:00
+    ${endtime}=    Get Value    id=endtime
+    Should Be Equal    ${endtime}    14:00
+    ${room}=    Get Value    id=room
+    Should Be Equal    ${room}    679
+    ${maxsize}=    Get Value    id=maxsize
+    Should Be Equal    ${maxsize}    1
+    ${course}=    Get Selected List Label    id=course
+    Should Be Equal    ${course}    BSIS
+    ${section}=    Get Value    id=section
+    Should Be Equal    ${section}    6C
+    ${schoolyear}=    Get Value    id=schoolyear
+    Should Be Equal    ${schoolyear}    2024-2025
+    Scroll Element Into View    id=submitBtn
+    Click Element    id=submitBtn
+    Check Status OK
+    # Add Schedule for TESTING102 (must be conflict with TESTING100)
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleEntry    timeout=10s
+    Click Element    id=ScheduleEntry
+    Check Status OK
+    Input Text    id=edpcode    677899
+    Input Text    id=subjectcode    TESTING102
+    Input Text    id=starttime    13:30
+    Input Text    id=endtime    14:30
+    Click Element    id=monday
+    Click Element    id=wednesday
+    Input Text    id=room    680
+    Input Text    id=maxsize    1
+    Select From List By Index    id=course    1
+    Input Text    id=section    6C
+    Input Text    id=schoolyear    2025-2026
+    ${edpcode}=    Get Value    id=edpcode
+    Should Be Equal    ${edpcode}    677899
+    ${subjectcode}=    Get Value    id=subjectcode
+    Should Be Equal    ${subjectcode}    TESTING102
+    ${starttime}=    Get Value    id=starttime
+    Should Be Equal    ${starttime}    13:30
+    ${endtime}=    Get Value    id=endtime
+    Should Be Equal    ${endtime}    14:30
+    ${room}=    Get Value    id=room
+    Should Be Equal    ${room}    680
+    ${maxsize}=    Get Value    id=maxsize
+    Should Be Equal    ${maxsize}    1
+    ${course}=    Get Selected List Label    id=course
+    Should Be Equal    ${course}    BSIS
+    ${section}=    Get Value    id=section
+    Should Be Equal    ${section}    6C
+    ${schoolyear}=    Get Value    id=schoolyear
+    Should Be Equal    ${schoolyear}    2025-2026
+    Scroll Element Into View    id=submitBtn
+    Click Element    id=submitBtn
+    Check Status OK
+
+Check For Alert
+    Sleep    2s
+    Alert Should Be Present
 *** Test Cases ***
 Initialize Browser
     Open Edge
@@ -507,7 +723,7 @@ Add Schedule Entry
     Wait Until Element Is Visible    id=ScheduleEntry    timeout=10s
     Click Element    id=ScheduleEntry
     Check Status OK
-    Input Text    id=edpcode    65789
+    Input Text    id=edpcode    99995
     Input Text    id=subjectcode    TESTING100
     Input Text    id=starttime    13:00
     Input Text    id=endtime    14:00
@@ -519,7 +735,7 @@ Add Schedule Entry
     Input Text    id=section    6C
     Input Text    id=schoolyear    2024-2025
     ${edpcode}=    Get Value    id=edpcode
-    Should Be Equal    ${edpcode}    65789
+    Should Be Equal    ${edpcode}    99995
     ${subjectcode}=    Get Value    id=subjectcode
     Should Be Equal    ${subjectcode}    TESTING100
     ${starttime}=    Get Value    id=starttime
@@ -547,8 +763,8 @@ Verify Added Entry in Schedule List
     Wait Until Element Is Visible    id=ScheduleList    timeout=10s
     Click Element    id=ScheduleList
     Check Status OK
-    ${table_text}=    Get Text    xpath=//table[@id='schedules']//td[contains(text(), '65789')]
-    Should Contain    ${table_text}    65789
+    ${table_text}=    Get Text    xpath=//table[@id='schedules']//td[contains(text(), '99995')]
+    Should Contain    ${table_text}    99995
 
 Edit Schedule Entry
     Sleep    1
@@ -557,36 +773,36 @@ Edit Schedule Entry
     Click Element    id=ScheduleEdit
     Check Status OK
     Wait Until Element Is Visible    id=edpcode    timeout=10s
-    Input Text    id=edpcode    65789
+    Input Text    id=edpcode    99995
     Click Button    id=searchbutton
     # Case 1: Edit the EDP Code to another value
-    Input Text    id=edpcode2    65790
+    Input Text    id=edpcode2    99996
     Scroll Element Into View    id=submitBtn
     Click Element    id=submitBtn
     Check Status OK
-    ${table_text}=    Get Text    xpath=//table[@id='schedules']//td[contains(text(), '65790')]
-    Should Contain    ${table_text}    65790
+    ${table_text}=    Get Text    xpath=//table[@id='schedules']//td[contains(text(), '99996')]
+    Should Contain    ${table_text}    99996
     # Case 2: Edit the EDP Code back to the original value
     Initialize Schedule Dropdown
     Wait Until Element Is Visible    id=ScheduleEdit    timeout=10s
     Click Element    id=ScheduleEdit
     Check Status OK
     Wait Until Element Is Visible    id=edpcode    timeout=10s
-    Input Text    id=edpcode    65790
+    Input Text    id=edpcode    99996
     Click Button    id=searchbutton
-    Input Text    id=edpcode2    65789
+    Input Text    id=edpcode2    99995
     Scroll Element Into View    id=submitBtn
     Click Element    id=submitBtn
     Check Status OK
-    ${table_text}=    Get Text    xpath=//table[@id='schedules']//td[contains(text(), '65789')]
-    Should Contain    ${table_text}    65789
+    ${table_text}=    Get Text    xpath=//table[@id='schedules']//td[contains(text(), '99995')]
+    Should Contain    ${table_text}    99995
     # Case 3: Edit the details to another value
     Initialize Schedule Dropdown
     Wait Until Element Is Visible    id=ScheduleEdit    timeout=10s
     Click Element    id=ScheduleEdit
     Check Status OK
     Wait Until Element Is Visible    id=edpcode    timeout=10s
-    Input Text    id=edpcode    65789
+    Input Text    id=edpcode    99995
     Click Button    id=searchbutton
     Wait Until Element Is Visible    id=edpcode2    timeout=10s
     Input Text    id=starttime    15:00
@@ -599,7 +815,7 @@ Edit Schedule Entry
     Input Text    id=maxsize    1
     Input Text    id=section    6D
     ${edpcode}=    Get Value    id=edpcode2
-    Should Be Equal    ${edpcode}    65789
+    Should Be Equal    ${edpcode}    99995
     ${starttime}=    Get Value    id=starttime
     Should Be Equal    ${starttime}    15:00
     ${endtime}=    Get Value    id=endtime
@@ -617,8 +833,8 @@ Edit Schedule Entry
     ${rows}=    Get WebElements    xpath=//table[@id='schedules']//tr
     FOR    ${row}    IN    @{rows}
         ${row_text}=    Get Text    ${row}
-        IF    '${row_text}' == '65789'
-            Should Contain    ${row_text}    65789
+        IF    '${row_text}' == '99995'
+            Should Contain    ${row_text}    99995
             Should Contain    ${row_text}    15:00
             Should Contain    ${row_text}    16:00
             Should Contain    ${row_text}    900
@@ -635,12 +851,74 @@ Delete Schedule Entry
     Click Element    id=ScheduleDelete
     Check Status OK
     Wait Until Element Is Visible    id=edpcode    timeout=10s
-    Input Text    id=edpcode    65789
+    Input Text    id=edpcode    99995
     Click Button    id=searchbutton
     Wait Until Element Is Visible    id=deletebutton    timeout=10s
     Scroll Element Into View    id=deletebutton
     Click Element    id=deletebutton
     Check Status OK
     ${table_text}=    Get Text    xpath=//table[@id='schedules']
-    Should Not Contain    ${table_text}    65789
+    Should Not Contain    ${table_text}    99995
     Play Success Sound
+
+Enroll Student and Verify if Enrolled
+    Sleep    1
+    Add Student for Enrollment
+    Add Subject for Enrollment
+    Add Schedule for Enrollment
+    Wait Until Element Is Visible    id=EnrollmentDropdown    timeout=10s
+    Click Element    id=EnrollmentDropdown
+    Wait Until Element Is Visible    id=EnrollmentEntry    timeout=10s
+    Click Element    id=EnrollmentEntry
+    Check Status OK
+    Wait Until Element Is Visible    id=idnumber    timeout=10s
+    Input Text    id=idnumber    33928124
+    Click Button    id=searchbutton
+    Wait Until Element Is Visible    id=name    timeout=10s
+    Input Text    id=edpcode    657899
+    Click Button    id=searchschedules
+    Input Text    id=edpcode    667899
+    Click Button    id=searchschedules
+    Input Text    id=edpcode    677899
+    Click Button    id=searchschedules
+    Check For Alert
+    Input Text    id=encoder    ROBOTFRAMEWORK
+    Scroll Element Into View    id=enrollmentbutton
+    Click Button    id=enrollmentbutton
+    Wait Until Element Is Visible    id=prompttext    timeout=10s
+    ${prompt}=    Get Text    id=prompttext
+    Should Contain    ${prompt}    Successfully Enrolled.
+    Scroll Element Into View    id=enrollmentbutton
+    # Check if Student is Enrolled after Enrolling Student
+    Scroll Element Into View    id=EnrollmentDropdown
+    Wait Until Element Is Visible    id=EnrollmentDropdown    timeout=10s
+    Click Element    id=EnrollmentDropdown
+    Wait Until Element Is Visible    id=EnrollmentEntry    timeout=10s
+    Click Element    id=EnrollmentEntry
+    Check Status OK
+    Wait Until Element Is Visible    id=idnumber    timeout=10s
+    Input Text    id=idnumber    33928124
+    Click Button    id=searchbutton
+    Wait Until Element Is Visible    id=name    timeout=10s
+    Input Text    id=edpcode    657899
+    Click Button    id=searchschedules
+    Input Text    id=edpcode    667899
+    Click Button    id=searchschedules
+    Input Text    id=encoder    ROBOTFRAMEWORK
+    Scroll Element Into View    id=enrollmentbutton
+    Click Button    id=enrollmentbutton
+    Wait Until Element Is Visible    id=prompttext    timeout=10s
+    ${prompt}=    Get Text    id=prompttext
+    Should Contain    ${prompt}    Student already Enrolled.
+    Play Success Sound
+    Scroll Element Into View    id=EnrollmentDropdown
+    Wait Until Element Is Visible    id=EnrollmentDropdown    timeout=10s
+    Click Element    id=EnrollmentDropdown
+    Wait Until Element Is Visible    id=EnrollmentLoad   timeout=10s
+    Click Element    id=EnrollmentLoad
+    Check Status OK
+    Wait Until Element Is Visible    id=idnumber    timeout=10s
+    Input Text    id=idnumber    33928124
+    Click Button    id=searchbutton
+    Wait Until Element Is Visible   id=encoder    timeout=10s
+    Sleep    10
