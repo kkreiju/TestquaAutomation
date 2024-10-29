@@ -19,3 +19,7 @@ challenge.xlsx
 rcc.exe
 TestquaAutomation/LICENSE
 TestquaAutomation/README.md
+__pycache__/
+report.html
+log.html
+output.xml

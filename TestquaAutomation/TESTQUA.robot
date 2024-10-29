@@ -1,6 +1,7 @@
 *** Settings ***
 Library    SeleniumLibrary
 Library    RequestsLibrary
+Library    sound.py
 
 *** Variables ***
 ${SITE}             https://localhost:8903/
@@ -20,6 +21,43 @@ Initialize Student Dropdown
 Initialize Subject Dropdown
     Wait Until Element Is Visible    id=SubjectsDropdown    timeout=10s
     Click Element    id=SubjectsDropdown
+
+Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=SchedulesDropdown    timeout=10s
+    Click Element    id=SchedulesDropdown
+Add Subject For Schedule
+    Sleep    1
+    Scroll Element Into View    id=SubjectsDropdown
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectEntry    timeout=10s
+    Click Element    id=SubjectEntry
+    Check Status OK
+    Input Text    id=subjectcode    TESTING100
+    Input Text    id=description    Testing Subject
+    Input Text    id=units    3
+    Select From List By Index    id=offering    0
+    Select From List By Index    id=category    1
+    Select From List By Index    id=coursecode    1
+    Input Text    id=curriculumyear    2024-2025
+    ${subjectcode}=    Get Value    id=subjectcode
+    Should Be Equal    ${subjectcode}    TESTING100
+    ${description}=    Get Value    id=description
+    Should Be Equal    ${description}    Testing Subject
+    ${units}=    Get Value    id=units
+    Should Be Equal    ${units}    3
+    ${offering}=    Get Selected List Label    id=offering
+    Should Be Equal    ${offering}    First Semester
+    ${category}=    Get Selected List Label    id=category
+    Should Be Equal    ${category}    Laboratory
+    ${coursecode}=    Get Selected List Label    id=coursecode
+    Should Be Equal    ${coursecode}    BSIS
+    ${curriculumyear}=    Get Value    id=curriculumyear
+    Should Be Equal    ${curriculumyear}    2024-2025
+    ${requisite}=    Get Value    id=requisite
+    Should Be Empty    ${requisite}
+    Sleep    1
+    Click Element    id=save
+    Check Status OK
 
 *** Test Cases ***
 Initialize Browser
@@ -195,6 +233,7 @@ Delete Student Entry
     Check Status OK
     ${table_text}=    Get Text    xpath=//table[@id='students']
     Should Not Contain    ${table_text}    33928124
+    Play Success Sound
 
 Verify Subject Dropdowns
     Sleep    1
@@ -414,4 +453,194 @@ Delete Subject Entry
     Check Status OK
     ${table_text}=    Get Text    xpath=//table[@id='subjects']
     Should Not Contain    ${table_text}    TESTING101
+    Play Success Sound
 
+Verify Schedule Dropdowns
+    Sleep    1
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleEntry    timeout=10s
+    Click Element    id=ScheduleEntry
+    Check Status OK
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleList    timeout=10s
+    Click Element    id=ScheduleList
+    Check Status OK
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleEdit    timeout=10s
+    Click Element    id=ScheduleEdit
+    Check Status OK
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleDelete    timeout=10s
+    Click Element    id=ScheduleDelete
+    Check Status OK
+
+Add Schedule Entry
+    Sleep    1
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleEntry    timeout=10s
+    Click Element    id=ScheduleEntry
+    Check Status OK
+    # Case 1: Add a dummy entry and check if cancel works
+    Input Text    id=edpcode    123
+    Input Text    id=subjectcode    123
+    Input Text    id=starttime    13:00
+    Input Text    id=endtime    14:00
+    Click Element    id=monday
+    Click Element    id=tuesday
+    Click Element    id=wednesday
+    Click Element    id=thursday
+    Click Element    id=friday
+    Click Element    id=saturday
+    Input Text    id=room    123
+    Input Text    id=maxsize    1
+    FOR    ${index}    IN RANGE    3
+        Select From List By Index    id=course    ${index}
+    END
+    Input Text    id=section    1A
+    Input Text    id=schoolyear    2024-2025
+    Scroll Element Into View    id=cancel
+    Click Element    id=cancel
+    # Case 2: Add a dummy entry and check if submit works
+    Add Subject For Schedule
+    Sleep    1
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleEntry    timeout=10s
+    Click Element    id=ScheduleEntry
+    Check Status OK
+    Input Text    id=edpcode    65789
+    Input Text    id=subjectcode    TESTING100
+    Input Text    id=starttime    13:00
+    Input Text    id=endtime    14:00
+    Click Element    id=monday
+    Click Element    id=wednesday
+    Input Text    id=room    678
+    Input Text    id=maxsize    30
+    Select From List By Index    id=course    1
+    Input Text    id=section    6C
+    Input Text    id=schoolyear    2024-2025
+    ${edpcode}=    Get Value    id=edpcode
+    Should Be Equal    ${edpcode}    65789
+    ${subjectcode}=    Get Value    id=subjectcode
+    Should Be Equal    ${subjectcode}    TESTING100
+    ${starttime}=    Get Value    id=starttime
+    Should Be Equal    ${starttime}    13:00
+    ${endtime}=    Get Value    id=endtime
+    Should Be Equal    ${endtime}    14:00
+    ${room}=    Get Value    id=room
+    Should Be Equal    ${room}    678
+    ${maxsize}=    Get Value    id=maxsize
+    Should Be Equal    ${maxsize}    30
+    ${course}=    Get Selected List Label    id=course
+    Should Be Equal    ${course}    BSIS
+    ${section}=    Get Value    id=section
+    Should Be Equal    ${section}    6C
+    ${schoolyear}=    Get Value    id=schoolyear
+    Should Be Equal    ${schoolyear}    2024-2025
+    Scroll Element Into View    id=submitBtn
+    Click Element    id=submitBtn
+    Check Status OK
+
+Verify Added Entry in Schedule List
+    Sleep    1
+    Scroll Element Into View    id=SchedulesDropdown
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleList    timeout=10s
+    Click Element    id=ScheduleList
+    Check Status OK
+    ${table_text}=    Get Text    xpath=//table[@id='schedules']//td[contains(text(), '65789')]
+    Should Contain    ${table_text}    65789
+
+Edit Schedule Entry
+    Sleep    1
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleEdit    timeout=10s
+    Click Element    id=ScheduleEdit
+    Check Status OK
+    Wait Until Element Is Visible    id=edpcode    timeout=10s
+    Input Text    id=edpcode    65789
+    Click Button    id=searchbutton
+    # Case 1: Edit the EDP Code to another value
+    Input Text    id=edpcode2    65790
+    Scroll Element Into View    id=submitBtn
+    Click Element    id=submitBtn
+    Check Status OK
+    ${table_text}=    Get Text    xpath=//table[@id='schedules']//td[contains(text(), '65790')]
+    Should Contain    ${table_text}    65790
+    # Case 2: Edit the EDP Code back to the original value
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleEdit    timeout=10s
+    Click Element    id=ScheduleEdit
+    Check Status OK
+    Wait Until Element Is Visible    id=edpcode    timeout=10s
+    Input Text    id=edpcode    65790
+    Click Button    id=searchbutton
+    Input Text    id=edpcode2    65789
+    Scroll Element Into View    id=submitBtn
+    Click Element    id=submitBtn
+    Check Status OK
+    ${table_text}=    Get Text    xpath=//table[@id='schedules']//td[contains(text(), '65789')]
+    Should Contain    ${table_text}    65789
+    # Case 3: Edit the details to another value
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleEdit    timeout=10s
+    Click Element    id=ScheduleEdit
+    Check Status OK
+    Wait Until Element Is Visible    id=edpcode    timeout=10s
+    Input Text    id=edpcode    65789
+    Click Button    id=searchbutton
+    Wait Until Element Is Visible    id=edpcode2    timeout=10s
+    Input Text    id=starttime    15:00
+    Input Text    id=endtime    16:00
+    Click Element    id=monday
+    Click Element    id=wednesday
+    Click Element    id=tuesday
+    Click Element    id=thursday
+    Input Text    id=room    900
+    Input Text    id=maxsize    1
+    Input Text    id=section    6D
+    ${edpcode}=    Get Value    id=edpcode2
+    Should Be Equal    ${edpcode}    65789
+    ${starttime}=    Get Value    id=starttime
+    Should Be Equal    ${starttime}    15:00
+    ${endtime}=    Get Value    id=endtime
+    Should Be Equal    ${endtime}    16:00
+    ${room}=    Get Value    id=room
+    Should Be Equal    ${room}    900
+    ${maxsize}=    Get Value    id=maxsize
+    Should Be Equal    ${maxsize}    1
+    ${section}=    Get Value    id=section
+    Should Be Equal    ${section}    6D
+    Scroll Element Into View    id=submitBtn
+    Click Element    id=submitBtn
+    Check Status OK
+    Wait Until Element Is Visible    xpath=//table[@id='schedules']    timeout=10s
+    ${rows}=    Get WebElements    xpath=//table[@id='schedules']//tr
+    FOR    ${row}    IN    @{rows}
+        ${row_text}=    Get Text    ${row}
+        IF    '${row_text}' == '65789'
+            Should Contain    ${row_text}    65789
+            Should Contain    ${row_text}    15:00
+            Should Contain    ${row_text}    16:00
+            Should Contain    ${row_text}    900
+            Should Contain    ${row_text}    1
+            Should Contain    ${row_text}    6D
+            Should Not Contain    ${row_text}    13:00
+        END
+    END
+
+Delete Schedule Entry
+    Sleep    1
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleDelete    timeout=10s
+    Click Element    id=ScheduleDelete
+    Check Status OK
+    Wait Until Element Is Visible    id=edpcode    timeout=10s
+    Input Text    id=edpcode    65789
+    Click Button    id=searchbutton
+    Wait Until Element Is Visible    id=deletebutton    timeout=10s
+    Scroll Element Into View    id=deletebutton
+    Click Element    id=deletebutton
+    Check Status OK
+    ${table_text}=    Get Text    xpath=//table[@id='schedules']
+    Should Not Contain    ${table_text}    65789
+    Play Success Sound
