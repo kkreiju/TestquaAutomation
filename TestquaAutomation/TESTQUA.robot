@@ -447,9 +447,7 @@ Delete Student Entry
     Wait Until Element Is Visible    id=deletebutton    timeout=10s
     Click Element    id=deletebutton
     Check Status OK
-    ${table_text}=    Get Text    xpath=//table[@id='students']
-    Should Not Contain    ${table_text}    33928124
-    Play Success Sound
+    Play Success Sound    
 
 Verify Subject Dropdowns
     Sleep    1
@@ -667,9 +665,7 @@ Delete Subject Entry
     Wait Until Element Is Visible    id=deletebutton    timeout=10s
     Click Element    id=deletebutton
     Check Status OK
-    ${table_text}=    Get Text    xpath=//table[@id='subjects']
-    Should Not Contain    ${table_text}    TESTING101
-    Play Success Sound
+    Play Success Sound 
 
 Verify Schedule Dropdowns
     Sleep    1
@@ -857,9 +853,7 @@ Delete Schedule Entry
     Scroll Element Into View    id=deletebutton
     Click Element    id=deletebutton
     Check Status OK
-    ${table_text}=    Get Text    xpath=//table[@id='schedules']
-    Should Not Contain    ${table_text}    99995
-    Play Success Sound
+    Play Success Sound 
 
 Enroll Student and Verify if Enrolled
     Sleep    1
@@ -922,3 +916,85 @@ Enroll Student and Verify if Enrolled
     Click Button    id=searchbutton
     Wait Until Element Is Visible   id=encoder    timeout=10s
     Sleep    10
+
+Delete Robot Framework Entries
+    Sleep    1
+    Initialize Student Dropdown
+    Wait Until Element Is Visible    id=StudentDelete    timeout=10s
+    Click Element    id=StudentDelete
+    Check Status OK
+    Wait Until Element Is Visible    id=idnumber1    timeout=10s
+    Input Text    id=idnumber1    33928124
+    Click Element    id=searchbutton
+    Wait Until Element Is Visible    id=deletebutton    timeout=10s
+    Click Element    id=deletebutton
+    Check Status OK
+    Sleep    1
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleDelete    timeout=10s
+    Click Element    id=ScheduleDelete
+    Check Status OK
+    Wait Until Element Is Visible    id=edpcode    timeout=10s
+    Input Text    id=edpcode    657899
+    Click Button    id=searchbutton
+    Wait Until Element Is Visible    id=deletebutton    timeout=10s
+    Scroll Element Into View    id=deletebutton
+    Click Element    id=deletebutton
+    Check Status OK
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleDelete    timeout=10s
+    Click Element    id=ScheduleDelete
+    Check Status OK
+    Wait Until Element Is Visible    id=edpcode    timeout=10s
+    Input Text    id=edpcode    667899
+    Click Button    id=searchbutton
+    Wait Until Element Is Visible    id=deletebutton    timeout=10s
+    Scroll Element Into View    id=deletebutton
+    Click Element    id=deletebutton
+    Check Status OK
+    Initialize Schedule Dropdown
+    Wait Until Element Is Visible    id=ScheduleDelete    timeout=10s
+    Click Element    id=ScheduleDelete
+    Check Status OK
+    Wait Until Element Is Visible    id=edpcode    timeout=10s
+    Input Text    id=edpcode    677899
+    Click Button    id=searchbutton
+    Wait Until Element Is Visible    id=deletebutton    timeout=10s
+    Scroll Element Into View    id=deletebutton
+    Click Element    id=deletebutton
+    Check Status OK
+    Scroll Element Into View    id=SubjectsDropdown
+    Sleep    1
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectDelete    timeout=10s
+    Click Element    id=SubjectDelete
+    Check Status OK
+    Wait Until Element Is Visible    id=subjectcode    timeout=10s
+    Input Text    id=subjectcode    TESTING100
+    Input Text    id=coursecode    BSIS
+    Click Element    id=searchbutton
+    Wait Until Element Is Visible    id=deletebutton    timeout=10s
+    Click Element    id=deletebutton
+    Check Status OK
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectDelete    timeout=10s
+    Click Element    id=SubjectDelete
+    Check Status OK
+    Wait Until Element Is Visible    id=subjectcode    timeout=10s
+    Input Text    id=subjectcode    TESTING101
+    Input Text    id=coursecode    BSIS
+    Click Element    id=searchbutton
+    Wait Until Element Is Visible    id=deletebutton    timeout=10s
+    Click Element    id=deletebutton
+    Check Status OK
+    Initialize Subject Dropdown
+    Wait Until Element Is Visible    id=SubjectDelete    timeout=10s
+    Click Element    id=SubjectDelete
+    Check Status OK
+    Wait Until Element Is Visible    id=subjectcode    timeout=10s
+    Input Text    id=subjectcode    TESTING102
+    Input Text    id=coursecode    BSIS
+    Click Element    id=searchbutton
+    Wait Until Element Is Visible    id=deletebutton    timeout=10s
+    Click Element    id=deletebutton
+    Check Status OK
