@@ -3,45 +3,59 @@
 </p>
 
 <h1 align="center"> IT-TESTQUA31 Final Project </h1>
-<p align="center"><i >Updated as of October 30, 2024.</i></p><br>
-Robotic Process Automation of ELDNET 1 Final Project.
 
-## Tech Stack
-- <i>Python 3.11<br>
-- Robot Framework</i>
+<!-- Tech Stack Badges -->
+<p align="center">
+  <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" />
+  <img src="https://img.shields.io/badge/Robot-black.svg?style=for-the-badge&logo=robotframework&logoColor=white" />
+</p>
 
-## Members
-**Arjay Nino Saguisa**<br>
-**John Reddick Quijano**<br>
+<p align="center"><i>📅 Updated as of October 30, 2024</i></p>
 
-## Instructions
+---
 
-- **Use PyCharm or Visual Studio Code**
+## 📚 Project Overview
 
-- **Set Up Virtual Environment**
+Robotic Process Automation (RPA) of the <a href="https://github.com/kkreiju/StudentPortal">IT-ELDNET1 StudentPortal</a>
+ using Robot Framework and Python.
+
+---
+
+## 👥 Members
+
+- 👨‍💻 **Arjay Nino Saguisa** – Sole Tester / Automation Developer
+- 🎨 **John Reddick Quijano** - Provided UI Draft from <a href="https://github.com/kkreiju/StudentPortal">IT-ELDNET1 StudentPortal</a> Project
+
+---
+
+## 📦 Instructions
+
+### 🔧 Use PyCharm or Visual Studio Code
+
+### ⚙️ Set Up Virtual Environment
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\activate
 ```
-*If activate.ps1 will not execute run this command as administrator*
+🛡️ *If activate.ps1 will not execute run this command as administrator*
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
-- **Install Robot Framework Dependencies**
+### 📥 Install Robot Framework Dependencies
 ```powershell
 pip install robotframework robotframework-browser robotframework-requests robotframework-seleniumlibrary robotframework-selenium2library
 ```
 
-- **Install Pip Dependency Tree (optional)**
+### 💡 Install Pip Dependency Tree (optional)
 ```powershell
 pip install pipdeptree
 ```
-- **Install RCC**
+### 📥 Install RCC
 ```powershell
 curl -o rcc.exe https://downloads.robocorp.com/rcc/releases/latest/windows64/rcc.exe
 ```
-- **Run Robot Framework File**
+### ▶️ Run Robot Framework File
 ```powershell
 cd TestquaAutomation
 ..\rcc.exe run -t "TESTQUA"
@@ -49,7 +63,7 @@ cd TestquaAutomation
 
 <hr>
 
-- **For Visual Studio Code**
+### 💡 **For Visual Studio Code**
 
 *Configure Python Language Server in Robot Framework Language Server Extension to ensure site packages are loaded*
 
