@@ -24,7 +24,7 @@ Robotic Process Automation (RPA) of the <a href="https://github.com/kkreiju/Stud
 ## 👥 Members
 
 - 👨‍💻 **Arjay Nino Saguisa** – Sole Tester / Automation Developer
-- 🎨 **John Reddick Quijano** - Provided UI Draft from <a href="https://github.com/kkreiju/StudentPortal">IT-ELDNET1 StudentPortal</a> Project
+- 🎨 **John Reddick Quijano** – Provided UI Draft from <a href="https://github.com/kkreiju/StudentPortal">IT-ELDNET1 StudentPortal</a> Project
 
 ---
 
